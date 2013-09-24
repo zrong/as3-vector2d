@@ -23,6 +23,7 @@ public class Vector2dSample3 extends Sprite
 	public static const COLOR_GREEN:uint = 0x00FF00;
 	public static const COLOR_BLUE:uint = 0x0000FF;
 	public static const COLOR_GREY:uint = 0xDDDDDD;
+	public static const LENGTH_FACTOR:int = 100;
 	
 	public function Vector2dSample3():void 
 	{
@@ -130,15 +131,26 @@ public class Vector2dSample3 extends Sprite
 		_lineCanvas.lineTo($v.p0.x, $v.p0.y, _dragger1.x, _dragger1.y, COLOR_BLACK);
 		
 		//draw the v2 vector line
-		_lineCanvas.lineTo(_v2.p0.x, _v2.p0.y, _v2.p1.x + _v2.v.x*100, _v2.p1.y + _v2.v.y*100, COLOR_BLUE);
+		_lineCanvas.lineTo(_v2.p0.x - _v2.v.x * LENGTH_FACTOR, 
+		_v2.p0.y - _v2.v.y * LENGTH_FACTOR, 
+		_v2.p0.x + _v2.v.x * LENGTH_FACTOR, 
+		_v2.p0.y + _v2.v.y * LENGTH_FACTOR, 
+		COLOR_BLUE);
 		
-		//draw the v1 right hand vector
+		//draw the v2 right hand vector line
+		_lineCanvas.lineTo(_v2.p0.x - _v2.r.x * LENGTH_FACTOR, 
+		_v2.p0.y - _v2.r.y*LENGTH_FACTOR, 
+		_v2.p0.x + _v2.r.x * LENGTH_FACTOR, 
+		_v2.p0.y + _v2.r.y * LENGTH_FACTOR, 
+		COLOR_GREY);
+		
+		//draw the v1 projected right hand vector line
 		var __rv:Point = _v1.getProjectedVector(_v2.d.x, _v2.d.y);
 		var __rvx:Number = $v.p0.x + __rv.x;
 		var __rvy:Number = $v.p0.y + __rv.y;
 		_lineCanvas.lineTo($v.p0.x, $v.p0.y, __rvx, __rvy, COLOR_GREEN);
 		
-		//draw the v1 left hand vector
+		//draw the v1 pojected left hand vector line
 		var __lv:Point = _v1.getProjectedVector(_v2.l.x / _v2.v.length, _v2.l.y / _v2.v.length);
 		var __lvx:Number = $v.p0.x + __lv.x;
 		var __lvy:Number = $v.p0.y + __lv.y;
