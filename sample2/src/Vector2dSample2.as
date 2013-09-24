@@ -11,7 +11,7 @@ import flash.text.TextFormat;
 import flash.system.fscommand;
 
 /**
- * AS1 to AS3 migration
+ * Length. Normals, AS1 to AS3 migration
  * Old sample: http://www.tonypa.pri.ee/vectors/tut02.html
  * @author zrong(zengrong.net)
  * Creation: 2013-09-24
