@@ -148,10 +148,10 @@ public class Vector2dSample5 extends Sprite
 		_v2p1.x = _v2.p1.x;
 		_v2p1.y = _v2.p1.y;
 		
-		var __ipoint:Point = _v2.findIntersection(_v1, _v3);
+		var __ipoint:Point = _v1.findIntersection(_v2, _v3);
 		_ip.x = __ipoint.x;
 		_ip.y = __ipoint.y;
-		_intersectionLabel.text = _v2.t.toFixed(3);
+		_intersectionLabel.text = _v1.t.toFixed(3);
 		
 		_lineCanvas.clear();
 		
@@ -360,15 +360,15 @@ class Vector2dGroup
 		update();
 	}
 	
-	//find intersection point of this vectors and v1
-	public function findIntersection($v1:Vector2dGroup, $v3:Vector2dGroup):Point
+	//find intersection point of this vectors and v2
+	public function findIntersection($v2:Vector2dGroup, $v3:Vector2dGroup):Point
 	{
-		if(isParallel($v1))
+		if(isParallel($v2))
 			t = 1000000;
 		else
-			t = $v3.getPrepDotProduct(this) / $v1.getPrepDotProduct(this);
-		trace($v3.v.x, $v3.v.y, this.v.x, this.v.y, $v1.v.x, $v1.v.y);
-		return new Point($v1.p0.x + $v1.v.x * t, $v1.p0.y + $v1.v.y * t);
+			t = $v3.getPrepDotProduct($v2) / this.getPrepDotProduct($v2);
+		trace(v.x, v.y, $v2.v.x, $v2.v.y, $v3.v.x, $v3.v.y);
+		return new Point(p0.x + v.x * t, p0.y + v.y * t);
 	}
 	
 	//calculate prep dot product
