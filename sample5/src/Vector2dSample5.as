@@ -46,6 +46,7 @@ public class Vector2dSample5 extends Sprite
 	private var _stageRect:Rectangle;
 	
 	private var _lineCanvas:Canvas = new Canvas();
+	private var _intersectionLabel:Label = new Label("Intersection:");
 	
 	private var _curDragger:Dragger;
 	private var _v1p0:Dragger = new Dragger("v1p0");
@@ -65,9 +66,12 @@ public class Vector2dSample5 extends Sprite
 		drawBackground();
 		initListener();
 		
-		_stageRect = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageWidth);
+		_stageRect = new Rectangle(0, 0, this.stage.stageWidth, this.stage.stageHeight);
 		
-		_v3 = new Vector2dGroup(_v2.p0.clone(), _v1.p0.clone());
+		_intersectionLabel.x = 90;
+		_intersectionLabel.y = _stageRect.height - 20;
+		
+		_v3 = new Vector2dGroup(_v1.p0.clone(), _v2.p0.clone());
 		_ip.buttonMode = false;
 		_ip.useHandCursor = false;
 		_ip.mouseEnabled = false;
@@ -77,6 +81,8 @@ public class Vector2dSample5 extends Sprite
 		_arrow3 = new Arrow(COLOR_BLUE);
 		
 		addChild(_lineCanvas);
+		
+		addChild(_intersectionLabel);
 		
 		addChild(_arrow1);
 		addChild(_arrow2);
@@ -142,9 +148,10 @@ public class Vector2dSample5 extends Sprite
 		_v2p1.x = _v2.p1.x;
 		_v2p1.y = _v2.p1.y;
 		
-		var __ipoint:Point = _v3.findIntersection(_v1, _v2);
+		var __ipoint:Point = _v2.findIntersection(_v1, _v3);
 		_ip.x = __ipoint.x;
 		_ip.y = __ipoint.y;
+		_intersectionLabel.text = _v2.t.toFixed(3);
 		
 		_lineCanvas.clear();
 		
@@ -239,6 +246,45 @@ class Arrow extends Shape
 	}
 }
 
+class Label extends Sprite
+{
+	public function Label($pre:String="", $label:String="")
+	{
+		super();
+		this.mouseEnabled = false;
+		this.mouseChildren = false;
+		_preTf = createTF($pre);
+		_labelTf = createTF($label);
+		_labelTf.x = _preTf.width + 2;
+		this.addChild(_preTf);
+		this.addChild(_labelTf);
+	}
+	
+	private var _preTf:TextField;
+	private var _labelTf:TextField;
+	
+	private function createTF($text:String):TextField
+	{
+		var __tf:TextField = new TextField();
+		__tf.autoSize = TextFieldAutoSize.LEFT;
+		__tf.text = $text;
+		__tf.selectable = false;
+		__tf.mouseEnabled = false;
+		this.addChild(__tf);
+		return __tf;
+	}
+	
+	public function get text():String
+	{
+		return _labelTf.text;
+	}
+	
+	public function set text($value:String):void
+	{
+		_labelTf.text = $value;
+	}
+}
+
 import flash.display.Shape;
 class Canvas extends Shape
 {
@@ -286,6 +332,8 @@ class Vector2dGroup
 	//left hand vector
 	public var l:Point;
 	
+	public var t:Number;
+	
 	public function update():void
 	{
 		v.x = p1.x - p0.x;
@@ -315,12 +363,12 @@ class Vector2dGroup
 	//find intersection point of this vectors and v1
 	public function findIntersection($v1:Vector2dGroup, $v3:Vector2dGroup):Point
 	{
-		var __t:Number = 0;
 		if(isParallel($v1))
-			__t = 1000000;
+			t = 1000000;
 		else
-			__t = $v3.getPrepDotProduct(this) / $v1.getPrepDotProduct(this);
-		return new Point($v1.p0.x + $v1.v.x * __t, $v1.p0.y + $v1.v.y * __t);
+			t = $v3.getPrepDotProduct(this) / $v1.getPrepDotProduct(this);
+		trace($v3.v.x, $v3.v.y, this.v.x, this.v.y, $v1.v.x, $v1.v.y);
+		return new Point($v1.p0.x + $v1.v.x * t, $v1.p0.y + $v1.v.y * t);
 	}
 	
 	//calculate prep dot product
