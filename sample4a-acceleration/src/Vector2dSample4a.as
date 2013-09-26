@@ -11,7 +11,7 @@ import flash.ui.Keyboard;
 import flash.utils.getTimer;
 
 /**
- * Move. Accelerate, AS1 to AS3 migration
+ * Accelerate, AS1 to AS3 migration
  * Old sample: http://www.tonypa.pri.ee/vectors/tut04.html
  * @author zrong(zengrong.net)
  * Creation: 2013-09-25
