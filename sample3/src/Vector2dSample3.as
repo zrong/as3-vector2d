@@ -190,6 +190,7 @@ public class Vector2dSample3 extends Sprite
 
 import flash.display.Sprite;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 class Dragger extends Sprite
 {
 	public function Dragger($label:String="")
@@ -205,6 +206,7 @@ class Dragger extends Sprite
 		{
 			var __tf:TextField = new TextField();
 			__tf.text = $label;
+			__tf.autoSize = TextFieldAutoSize.LEFT;
 			__tf.x = 4;
 			__tf.y = -8;
 			__tf.selectable = false;
